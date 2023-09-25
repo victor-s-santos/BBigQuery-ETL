@@ -1,0 +1,6 @@
+google-cloud==0.34.0
+mysql-connector-python==8.1.0
+pandas==2.1.1
+pip-chill==1.0.3
+pyarrow==13.0.0
+pydantic==2.4.0
