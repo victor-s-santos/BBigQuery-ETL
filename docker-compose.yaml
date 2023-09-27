@@ -1,0 +1,28 @@
+version: "3"
+services: 
+  mysql:
+    image: mysql:8
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --innodb_force_recovery=0
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: senha
+      MYSQL_DATABASE: base_de_dados
+      MYSQL_USER: usuario
+      MYSQL_PASSWORD: senha
+      TZ: America/Sao_Paulo
+    volumes:
+      - mysql_volume:/var/lib/mysql
+      - ./sql/create_database_and_tables.sql:/docker-entrypoint-initdb.d/0create_database.sql
+      - ./sql/age_income_export_2023-09-25_165909.sql:/docker-entrypoint-initdb.d/age_income_export_2023-09-25_165909.sql
+      - ./sql/city_house_prices_export_2023-09-25_170154.sql:/docker-entrypoint-initdb.d/city_house_prices_export_2023-09-25_170154.sql
+      - ./sql/imdb_movies_export_2023-09-25_170203.sql:/docker-entrypoint-initdb.d/imdb_movies_export_2023-09-25_170203.sql
+      - ./sql/imdb_ratings_export_2023-09-25_170217.sql:/docker-entrypoint-initdb.d/imdb_ratings_export_2023-09-25_170217.sql
+      - ./sql/name_children_export_2023-09-25_170230.sql:/docker-entrypoint-initdb.d/name_children_export_2023-09-25_170230.sql
+      - ./sql/sample_export_2023-09-25_170239.sql:/docker-entrypoint-initdb.d/sample_export_2023-09-25_170239.sql
+volumes:
+  mysql_volume:
