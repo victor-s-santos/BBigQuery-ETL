@@ -41,7 +41,7 @@ class MySQLConnection:
             file_path = os.path.join(self.current_path, "output_files", output_filename)
             df = pd.read_sql(query, self.db)
             df.to_csv(file_path)
-            print("Sucess!")
+            print(f"The file {output_filename} has been exported successfully!")
             self.db.close()
 
         except Exception as e:
@@ -60,7 +60,6 @@ if __name__ == "__main__":
 
     try:
         db = MySQLConnection(dict_credentials=db_credentials)
-        export_csv = db.export_to_csv(query="SELECT * FROM sample", output_filename="sample.csv")
-        print(f"Sucess: {export_csv}")
+        export_csv = db.export_to_csv(query="SELECT * FROM age_income", output_filename="age_income.csv")
     except Exception as e:
         print(f"An error: {e}")
