@@ -35,7 +35,7 @@ if __name__ == "__main__":
     try:
         db = MySQLConnection(dict_credentials=db_credentials)
         receive_obj = db.connect_object()
-        print(receive_obj)
+        print(f"Sucess: {receive_obj}")
     except Exception as e:
         print(f"An error: {e}")
 

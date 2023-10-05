@@ -1,5 +1,6 @@
 import mysql.connector as mysqldb
 import pandas as pd
+import os
 
 
 class MySQLConnection:
@@ -14,6 +15,7 @@ class MySQLConnection:
                 port = self.dict_credentials["PORT"]
         )
         self.my_cursor = self.db.cursor()
+        self.current_path = os.getcwd()
 
 
     def retrieve_one_sample(self):
@@ -23,18 +25,22 @@ class MySQLConnection:
         except Exception as e:
             print(f"An error has been occured: {e}")
 
-    def retrieve_df_head(self):
-        ...
-
-    def retrieve_df_types(self, query):
+    def retrieve_df_head(self, query):
         try:
             df = pd.read_sql(query, self.db)
-            #self.my_cursor.execute(query)
-            #return self.my_cursor.fetchall()
-            return df.dtypes
+            return df.head()
+        
         except Exception as e:
             return f"An error: {e}"
 
+    def export_to_csv(self, query, output_filename):
+        try:
+            file_path = os.path.join(self.current_path, "output_files", output_filename)
+            df = pd.read_sql(query, self.db)
+            df.to_csv(file_path)
+            return "Sucess!"
+        except Exception as e:
+            return f"An error: {e}"
 
 
 if __name__ == "__main__":
@@ -48,7 +54,8 @@ if __name__ == "__main__":
 
     try:
         db = MySQLConnection(dict_credentials=db_credentials)
-        receive_obj = db.retrieve_df_types(query="SELECT * FROM sample")
-        print(f"Sucess: {receive_obj}")
+        receive_obj = db.retrieve_df_head(query="SELECT * FROM sample")
+        export_csv = db.export_to_csv(query="SELECT * FROM sample", output_filename="sample.csv")
+        print(f"Sucess: {export_csv}")
     except Exception as e:
         print(f"An error: {e}")
