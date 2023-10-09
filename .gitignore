@@ -3,3 +3,4 @@
 .env
 .venv/
 full_sqls/
+*service_account.json
